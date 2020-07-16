@@ -12,13 +12,15 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 import { VehicleService } from './services/vehicle.service';
 import { HomeComponent } from './home/home.component';
+import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     VehicleFormComponent,
-    HomeComponent
+    HomeComponent,
+    VehicleListComponent
   ],
   imports: [
     BrowserModule,
@@ -35,6 +37,7 @@ import { HomeComponent } from './home/home.component';
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'vehicles/new', component: VehicleFormComponent },
       { path: 'vehicles/:id', component: VehicleFormComponent },
+      { path: 'vehicles', component: VehicleListComponent },
       { path: 'home', component: HomeComponent },
       { path: '**', redirectTo: 'home' }
     ])

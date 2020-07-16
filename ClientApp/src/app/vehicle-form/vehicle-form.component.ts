@@ -33,7 +33,10 @@ export class VehicleFormComponent implements OnInit {
       private toastrService: ToastrService)
       {
         route.params.subscribe(p => {
-          this.vehicle.id = +p['id'];
+          //if(this.vehicle.id)
+            this.vehicle.id = +p['id'];
+          // else
+          //   this.vehicle.id = 0;
         });
       }
 
@@ -93,22 +96,24 @@ export class VehicleFormComponent implements OnInit {
       this.vehicleService.updateVehicle(this.vehicle)
         .subscribe(x => {
           this.toastrService.success('The vehicle was successfuly updated', 'Success')
-        })
+        this.router.navigate(['/vehicles']);})
     }
     else {
+      this.vehicle.id = 0;
       this.vehicleService.create(this.vehicle)
       .subscribe(
         x =>{console.log(x);
           this.toastrService.success('The vehicle was successfuly registered', 'Success');
         });
     }
+    
   }
 
   delete(){
     if (confirm("Are you sure?"))
     this.vehicleService.deleteVehicle(this.vehicle.id)
       .subscribe(x => {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/vehicles']);
       })
   }
 }

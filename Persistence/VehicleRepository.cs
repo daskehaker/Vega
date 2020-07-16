@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Vega.Models;
 using Vega.Core;
+using System.Linq.Expressions;
 
 namespace Vega.Persistence
 {
@@ -17,7 +18,7 @@ namespace Vega.Persistence
             this.context = context;
         }
 
-        public async Task<Vehicle> GetVehivle(int id, bool includeRelated = true) //defaul value yra true
+        public async Task<Vehicle> GetVehicle(int id, bool includeRelated = true) //defaul value yra true
         {
             if (!includeRelated)
                 return await context.Vehicles.FindAsync(id);
@@ -29,6 +30,28 @@ namespace Vega.Persistence
                 .SingleOrDefaultAsync(v => v.Id == id);
         }
 
+        public async Task<IEnumerable<Vehicle>> GetVehicles(VehicleQuery queryObj)
+        {
+            var query = context.Vehicles
+                .Include(v => v.Model)
+                .ThenInclude(m => m.Make)
+                .Include(v => v.Features)
+                .ThenInclude(vf => vf.Feature).AsQueryable();
+            if (queryObj.MakeId.HasValue)
+                query = query.Where(v => v.Model.MakeId == queryObj.MakeId.Value);
+
+            Dictionary<string, Expression<Func<Vehicle, object>>> columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>() //object initialization
+            {
+                ["make"] = v => v.Model.Make.Name,
+                ["model"] = v => v.Model.Name//,
+                //["id"] = v => v.Id
+            };
+
+            query = ApplyOrdering(queryObj, query, columnsMap);
+            
+            return await query.ToListAsync();
+        }
+
         public void Add(Vehicle vehicle)
         {
             context.Vehicles.Add(vehicle);
@@ -37,6 +60,18 @@ namespace Vega.Persistence
         public void Remove(Vehicle vehicle)
         {
             context.Remove(vehicle);
+        }
+
+        private IQueryable<Vehicle> ApplyOrdering(VehicleQuery queryObj, IQueryable<Vehicle> query, Dictionary<string, Expression<Func<Vehicle, object>>> columnsMap)
+        {
+            if (String.IsNullOrWhiteSpace(queryObj.SortBy) || !columnsMap.ContainsKey(queryObj.SortBy))
+                return query;
+
+            if (queryObj.IsSortAscending)
+                return query.OrderBy(columnsMap[queryObj.SortBy]);
+            else
+                return query.OrderByDescending(columnsMap[queryObj.SortBy]);
+
         }
     }
 }

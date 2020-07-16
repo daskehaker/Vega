@@ -10,6 +10,11 @@
             <a class='navbar-brand' [routerLink]='["/home"]'>Vega</a>
             <a [routerLink]='["/vehicles/new"]' (click)='collapse()'>
               <span class='glyphicon glyphicon-plus-sign'></span> New vehicle
+              <!--p  [routerLinkActiveOptions]="{exact: true}"></p-->
+            </a>
+            <br>
+            <a [routerLink]='["/vehicles"]' (click)='collapse()'>
+              <span class='glyphicon glyphicon-plus-sign'></span> vehicles List
             </a>
         </div>
         <div class='clearfix'></div>
