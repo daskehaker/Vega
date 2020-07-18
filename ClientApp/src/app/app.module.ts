@@ -9,6 +9,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { PaginationComponent } from './pagination/pagination.component';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 import { VehicleService } from './services/vehicle.service';
 import { HomeComponent } from './home/home.component';
@@ -20,7 +21,8 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
     NavMenuComponent,
     VehicleFormComponent,
     HomeComponent,
-    VehicleListComponent
+    VehicleListComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,

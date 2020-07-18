@@ -1,6 +1,8 @@
 import { Vehicle, KeyValuePair } from './../models/vehicle';
 import { VehicleService, IMake } from './../services/vehicle.service';
 import { Component, OnInit } from '@angular/core';
+import { ThrowStmt } from '@angular/compiler';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -8,9 +10,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
-  vehicles: Vehicle[]
+  private readonly PAGE_SIZE = 3;
+  queryResult: any = {}
   makes: KeyValuePair[]
-  query: any = {}
+  query: any = { isSortAscending: false, pageSize: this.PAGE_SIZE}
+  columns = [
+    {title: 'Id'},
+    {title: 'Make', key: 'make', isSortable: true},
+    {title: 'Model', key: 'model', isSortable: true},
+    {title: 'Contact Name', key: 'contactName', isSortable: true},
+    {title: ''}
+  ]
 
   constructor(private vehicleService: VehicleService) {   }
 
@@ -21,6 +31,7 @@ export class VehicleListComponent implements OnInit {
   }
 
   onFilterChange(){
+    this.query.page = 1;
     this.populateVehicles();
     /*var vehicles = this.allVehicles
     if(this.filter.makeId)
@@ -30,21 +41,30 @@ export class VehicleListComponent implements OnInit {
 
   private populateVehicles(){
     this.vehicleService.getVehicles(this.query)
-    .subscribe(vehicles => this.vehicles = vehicles as Vehicle[]);
+    .subscribe(result => this.queryResult = result
+    );
   }
 
   resetFilter(){
-    this.query = {}
+    this.query = {
+      page: 1,
+      pageSize: this.PAGE_SIZE
+    }
     this.onFilterChange();
   }
 
   sortBy(columnName: string) {
     if(this.query.sortBy === columnName)
-      this.query.isSortAscending = false;
+      this.query.isSortAscending = !this.query.isSortAscending;
     else {
       this.query.sortBy = columnName;
       this.query.isSortAscending = true;
     }
+    this.populateVehicles();
+  }
+
+  onPageChange(page){
+    this.query.page = page;
     this.populateVehicles();
   }
 }
