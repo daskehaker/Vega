@@ -96,7 +96,7 @@ export class VehicleFormComponent implements OnInit {
       this.vehicleService.updateVehicle(this.vehicle)
         .subscribe(x => {
           this.toastrService.success('The vehicle was successfuly updated', 'Success')
-        this.router.navigate(['/vehicles']);})
+        this.router.navigate(['/vehicles', this.vehicle.id]);})
     }
     else {
       this.vehicle.id = 0;
@@ -104,6 +104,7 @@ export class VehicleFormComponent implements OnInit {
       .subscribe(
         x =>{console.log(x);
           this.toastrService.success('The vehicle was successfuly registered', 'Success');
+          this.router.navigate(['/vehicles', x['id']])
         });
     }
     

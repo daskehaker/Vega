@@ -34,11 +34,11 @@ namespace Vega.Controllers
                 return BadRequest(ModelState);
             }
             var model = await repository.GetVehicle(vehicleResource.ModelId, includeRelated: false);
-            if (model == null)
+            /*if (model == null)
             {
                 ModelState.AddModelError("ModelId", "Invalid modelId.");
                 return BadRequest(ModelState);
-            }
+            }*/
             var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);
             vehicle.LastUpdate = DateTime.Now;
             repository.Add(vehicle);

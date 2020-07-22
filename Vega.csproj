@@ -48,6 +48,8 @@
     <Compile Remove="Migrations\20200321131546_InitialModel.Designer.cs" />
     <Compile Remove="Migrations\20200324162850_AddVehicle.cs" />
     <Compile Remove="Migrations\20200324162850_AddVehicle.Designer.cs" />
+    <Compile Remove="Migrations\20200719103112_AddPhoto.cs" />
+    <Compile Remove="Migrations\20200719103112_AddPhoto.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

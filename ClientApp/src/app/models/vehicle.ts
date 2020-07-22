@@ -8,8 +8,18 @@ export interface Vehicle{
     lastUpdate: string;
 }
 
+export interface VehicleInfo{
+    make: string;
+    model: string;
+    isRegistered: boolean;
+    features: string[];
+    contactName: string;
+    contactEmail: string;
+    contactPhone: string;
+}
+
 export interface SaveVehicle{
-    id: number;
+    id?: number;
     modelId: number;
     makeId :number;
     isRegistered: boolean;

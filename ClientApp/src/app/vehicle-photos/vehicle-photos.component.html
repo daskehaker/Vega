@@ -1,0 +1,20 @@
+<vehicle-navbar [vehicle-id]="id"></vehicle-navbar>
+<h2>Photos</h2>
+<input type="file" (change)="uploadPhoto()" #fileInput>
+<div *ngIf="error">
+    {{ error.message }}
+</div>
+<div *ngIf="uploadResponse.status === 'error'">
+{{ uploadResponse.message }}
+</div>
+<div *ngIf="uploadResponse.status === 'progress'">
+<div role="progressbar" [style.width.%]="uploadResponse.message" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+    {{uploadResponse.message}}%
+</div>
+</div>
+<div *ngIf="uploadResponse.status === 'progress'" class="progress">
+    <div class="progress-bar" [style.width.%]="uploadResponse.message">
+        <span class="sr-only">{{uploadResponse.message}}%</span>
+    </div>
+</div>
+<img *ngFor="let p of photos" src="/uploads/{{p.fileName}}" class="img-thumbnail">

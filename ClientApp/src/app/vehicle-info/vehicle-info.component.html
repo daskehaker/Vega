@@ -1,0 +1,20 @@
+<vehicle-navbar [vehicle-id]="id"></vehicle-navbar>
+<h3>Basics</h3>
+<ul>
+    <li>{{vehicle.make}}</li>
+    <li>{{vehicle.model}}</li>
+    <li>{{vehicle.isRegistered}}</li>
+</ul>
+<h3>Features</h3>
+<ul>
+    <li *ngFor="let f of vehicle.features">{{f}}</li>
+</ul>
+<h3>Contact</h3>
+<ul>
+    <li>{{vehicle.contactName}}</li>
+    <li>{{vehicle.contactEmail}}</li>
+    <li>{{vehicle.contactPhone}}</li>
+</ul>
+<button type="button" [routerLink]="['/vehicles/edit/', id]" class="btn btn-primary">Edit</button>
+<button type="button" class="btn btn-danger">Delete</button>
+<button type="button" [routerLink]="['/vehicles']" class="btn btn-light">View All Vehicles</button>

@@ -2,7 +2,7 @@ import { AppErrorHandler } from './app.error-handler';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, XhrFactory } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -14,6 +14,11 @@ import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 import { VehicleService } from './services/vehicle.service';
 import { HomeComponent } from './home/home.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
+import { VehicleNavbarComponent } from './vehicle-navbar/vehicle-navbar.component';
+import { VehiclePhotosComponent } from './vehicle-photos/vehicle-photos.component';
+import { VehicleInfoComponent } from './vehicle-info/vehicle-info.component';
+import { PhotoService } from './services/photo.service';
+import { BrowserXhrWithProgress, ProgressService } from './services/progress.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +27,10 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
     VehicleFormComponent,
     HomeComponent,
     VehicleListComponent,
-    PaginationComponent
+    PaginationComponent,
+    VehicleNavbarComponent,
+    VehiclePhotosComponent,
+    VehicleInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -37,8 +45,11 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
     }),
     RouterModule.forRoot([
       { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'vehicles/photos', component: VehiclePhotosComponent },
       { path: 'vehicles/new', component: VehicleFormComponent },
-      { path: 'vehicles/:id', component: VehicleFormComponent },
+      { path: 'vehicles/edit/:id', component: VehicleFormComponent },
+      { path: 'vehicles/photos/:id', component: VehiclePhotosComponent },
+      { path: 'vehicles/:id', component: VehicleInfoComponent },
       { path: 'vehicles', component: VehicleListComponent },
       { path: 'home', component: HomeComponent },
       { path: '**', redirectTo: 'home' }
@@ -46,7 +57,11 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
   ],
   providers: [
     {provide: ErrorHandler, useClass: AppErrorHandler},
-    VehicleService
+    //{provide: XhrFactory, useClass: BrowserXhrWithProgress},
+    VehicleService,
+    PhotoService,
+    ProgressService
+
   ],
   bootstrap: [AppComponent]
 })
